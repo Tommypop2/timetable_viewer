@@ -5,7 +5,7 @@ import 'package:timetable_viewer/widgets/day.dart';
 import 'package:timetable_viewer/widgets/week.dart';
 import 'handlers/token_handler.dart';
 
-late Map timetable;
+late Map? timetable;
 final List<String> days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,33 +41,33 @@ class MyApp extends StatelessWidget {
   }
 }
 
-final widgets = [
-  DateTime.now().weekday > 5 == false
-      ? DayDisplay(
-          dayNum: DateTime.now().weekday - 1,
-          weekNum: CurrentWeekHandler.currentWeek + 1,
-          timetable: timetable,
+final List<Widget?> widgets = timetable != null
+    ? [
+        DateTime.now().weekday > 5 == false
+            ? DayDisplay(
+                dayNum: DateTime.now().weekday - 1,
+                weekNum: CurrentWeekHandler.currentWeek + 1,
+                timetable: timetable!,
+              )
+            : null,
+        ListView(
+          children: [
+            WeekDisplay(
+              timetable: timetable!,
+              weekNum: 1,
+            ),
+          ],
+        ),
+        ListView(
+          children: [
+            WeekDisplay(
+              weekNum: 2,
+              timetable: timetable!,
+            ),
+          ],
         )
-      : null,
-  WeekDisplay(
-    timetable: timetable,
-    weekNum: 1,
-  ),
-  ListView(
-    children: [
-      const Text("Week 1"),
-      WeekDisplay(
-        weekNum: 1,
-        timetable: timetable,
-      ),
-      const Text("Week 2"),
-      WeekDisplay(
-        weekNum: 2,
-        timetable: timetable,
-      ),
-    ],
-  )
-];
+      ]
+    : [];
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -117,7 +117,9 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
 
-      body: widgets[_currentIndex],
+      body: widgets.length == 3
+          ? widgets[_currentIndex]
+          : const Text("Couldn't load timetable"),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -139,7 +141,7 @@ class _MyHomePageState extends State<MyHomePage> {
               Icons.language,
               color: Colors.black,
             ),
-            label: "Entire Timetable",
+            label: "Next Week",
           ),
         ],
         currentIndex: _currentIndex,

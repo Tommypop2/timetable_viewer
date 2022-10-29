@@ -31,8 +31,9 @@ class TokenHandler {
   static Future<void> getToken(String username, String password) async {
     final body = {"txtLoginId": username, "txtPassword": password};
     final res = await http.post(
-        Uri.parse("https://www.hartismere.com/_api/account/login"),
-        body: body);
+      Uri.parse("https://www.hartismere.com/_api/account/login"),
+      body: body,
+    );
     if (res.statusCode == 200) {
       final String token = jsonDecode(res.body)["cv"];
       loginToken = token;

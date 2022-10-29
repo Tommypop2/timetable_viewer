@@ -58,7 +58,7 @@ class _DayDisplayState extends State<DayDisplay> {
                     ),
                   ),
                   width: (MediaQuery.of(context).size.width / 5) - 7,
-                  height: (MediaQuery.of(context).size.height / 6) - 22,
+                  height: (MediaQuery.of(context).size.height / 7) - 12,
                   child: Column(
                     children: [
                       Text(
