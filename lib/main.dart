@@ -54,14 +54,14 @@ final List<Widget?> widgets = timetable != null
           children: [
             WeekDisplay(
               timetable: timetable!,
-              weekNum: 1,
+              weekNum: CurrentWeekHandler.currentWeek + 1,
             ),
           ],
         ),
         ListView(
           children: [
             WeekDisplay(
-              weekNum: 2,
+              weekNum: CurrentWeekHandler.currentWeek == 0 ? 2 : 1,
               timetable: timetable!,
             ),
           ],
