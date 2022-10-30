@@ -6,13 +6,13 @@ class TokenHandler {
   static final TokenHandler _tokenHandler =
       TokenHandler._tokenHandlerConstructor();
   static String loginToken = "";
-  static Future<void> loadCachedToken() async {
+  static Future<String?> loadCachedToken() async {
     await TokenHandler.loadToken();
     String currentToken = TokenHandler.loginToken;
     if (currentToken == "") {
-      await TokenHandler.getToken("beerthomas", "Scra88les!");
-      await TokenHandler.storeToken();
+      return null;
     }
+    return loginToken;
   }
 
   static Future<void> storeToken() async {
@@ -28,16 +28,22 @@ class TokenHandler {
     }
   }
 
-  static Future<void> getToken(String username, String password) async {
+  static Future<List<dynamic>> getToken(
+      String username, String password) async {
     final body = {"txtLoginId": username, "txtPassword": password};
     final res = await http.post(
       Uri.parse("https://www.hartismere.com/_api/account/login"),
       body: body,
     );
-    if (res.statusCode == 200) {
-      final String token = jsonDecode(res.body)["cv"];
+    Map decodedBody = jsonDecode(res.body);
+    if (decodedBody["success"] == false) {
+      return ["Error", decodedBody["error"]];
+    } else if (res.statusCode == 200) {
+      final String token = decodedBody["cv"];
       loginToken = token;
+      return ["Success"];
     }
+    return ([]);
   }
 
   factory TokenHandler() {
