@@ -72,6 +72,23 @@ class _MyHomePageState extends State<MyHomePage> {
   int _currentIndex = 0;
   @override
   Widget build(BuildContext context) {
+    Color backgroundColour = Colors.white;
+    if (CurrentWeekHandler.currentWeek == 0) {
+      if (_currentIndex == 1) {
+        backgroundColour = Colors.red;
+      }
+      if (_currentIndex == 2) {
+        backgroundColour = Colors.blue;
+      }
+    }
+    if (CurrentWeekHandler.currentWeek == 1) {
+      if (_currentIndex == 1) {
+        backgroundColour = Colors.blue;
+      }
+      if (_currentIndex == 2) {
+        backgroundColour = Colors.red;
+      }
+    }
     final List<Widget?> widgets = timetable != null
         ? [
             DateTime.now().weekday > 5 == false
@@ -106,6 +123,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
+      backgroundColor: backgroundColour,
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
@@ -116,8 +134,8 @@ class _MyHomePageState extends State<MyHomePage> {
           ? widgets[_currentIndex]
           : const Text("Couldn't load timetable"),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
+        items: <BottomNavigationBarItem>[
+          const BottomNavigationBarItem(
             icon: Icon(
               Icons.language,
               color: Colors.black,
@@ -127,14 +145,18 @@ class _MyHomePageState extends State<MyHomePage> {
           BottomNavigationBarItem(
             icon: Icon(
               Icons.language,
-              color: Colors.black,
+              color: CurrentWeekHandler.currentWeek == 0
+                  ? Colors.red
+                  : Colors.blue,
             ),
-            label: "Current Week",
+            label: "This Week",
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.language,
-              color: Colors.black,
+              color: CurrentWeekHandler.currentWeek == 0
+                  ? Colors.blue
+                  : Colors.red,
             ),
             label: "Next Week",
           ),
