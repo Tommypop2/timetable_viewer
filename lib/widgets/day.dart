@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import '../handlers/current_week_handler.dart';
 
 final List<String> days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
-const nonHighlightedDecoration = BoxDecoration();
+final nonHighlightedDecoration = BoxDecoration(
+  border: Border.all(width: 3, style: BorderStyle.none),
+);
 final highlightedDecoration = BoxDecoration(
   border: Border.all(
-    width: 1,
-    color: Colors.blue,
+    width: 3,
+    color: Colors.black,
   ),
 );
 
@@ -38,7 +40,7 @@ class _DayDisplayState extends State<DayDisplay> {
               ? highlightedDecoration
               : nonHighlightedDecoration
           : nonHighlightedDecoration,
-      padding: const EdgeInsets.all(3.0),
+      // padding: const EdgeInsets.all(3.0),
       child: Column(
         // Periods
         children: [
@@ -57,7 +59,7 @@ class _DayDisplayState extends State<DayDisplay> {
                           .replaceAll("#", "0xff"),
                     ),
                   ),
-                  width: (MediaQuery.of(context).size.width / 5) - 7,
+                  width: (MediaQuery.of(context).size.width / 5) - 8,
                   height: (MediaQuery.of(context).size.height / 7) - 12,
                   child: Column(
                     children: [

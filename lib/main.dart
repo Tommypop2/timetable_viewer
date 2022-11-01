@@ -92,10 +92,15 @@ class _MyHomePageState extends State<MyHomePage> {
     final List<Widget?> widgets = timetable != null
         ? [
             DateTime.now().weekday > 5 == false
-                ? DayDisplay(
-                    dayNum: DateTime.now().weekday - 1,
-                    weekNum: CurrentWeekHandler.currentWeek + 1,
-                    timetable: timetable!,
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      DayDisplay(
+                        dayNum: DateTime.now().weekday - 1,
+                        weekNum: CurrentWeekHandler.currentWeek + 1,
+                        timetable: timetable!,
+                      )
+                    ],
                   )
                 : null,
             ListView(
