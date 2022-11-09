@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:timetable_viewer/handlers/token_handler.dart';
 
@@ -13,6 +15,14 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _passwordController = TextEditingController();
   final FocusNode _passwordFocusNode = FocusNode();
   String errorText = "";
+  Future<String?> login(String usernameText, String passwordText) async {
+    List result = await TokenHandler.getToken(usernameText, passwordText);
+    if (result[0] == "Error") {
+      return result[1];
+    }
+    await TokenHandler.storeToken();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,19 +49,16 @@ class _LoginPageState extends State<LoginPage> {
             controller: _passwordController,
             focusNode: _passwordFocusNode,
             onSubmitted: (String str) async {
-              String usernameText = _usernameController.text;
-              String passwordText = str;
-              List result =
-                  await TokenHandler.getToken(usernameText, passwordText);
-              if (result[0] == "Error") {
-                setState(() {
-                  errorText = result[1];
-                });
+              String? result = await login(_usernameController.text, str);
+              if (result == null) {
+                if (!mounted) return;
+                Navigator.pop(context);
                 return;
               }
-              await TokenHandler.storeToken();
-              if (!mounted) return;
-              Navigator.pop(context);
+              setState(() {
+                errorText = result;
+              });
+              return;
             },
             obscureText: true,
             style: const TextStyle(
@@ -64,6 +71,10 @@ class _LoginPageState extends State<LoginPage> {
                 color: Colors.black,
               ),
             ),
+          ),
+          TextButton(
+            onPressed: () {},
+            child: const Text("Login"),
           ),
           Text(errorText),
         ],

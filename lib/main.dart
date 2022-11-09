@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:timetable_viewer/handlers/current_week_handler.dart';
 import 'package:timetable_viewer/handlers/timetable_handler.dart';
 import 'package:timetable_viewer/pages/loginpage.dart';
+import 'package:timetable_viewer/pages/settingspage.dart';
 import 'package:timetable_viewer/widgets/day.dart';
 import 'package:timetable_viewer/widgets/week.dart';
 import 'handlers/token_handler.dart';
@@ -133,6 +134,28 @@ class _MyHomePageState extends State<MyHomePage> {
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
+        actions: <Widget>[
+          IconButton(
+            onPressed: () async {
+              await Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => const SettingsPage(),
+                ),
+              );
+              if (TokenHandler.loginToken == "") {
+                if (!mounted) return;
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => const LoginPage(),
+                  ),
+                );
+              }
+            },
+            icon: const Icon(Icons.settings),
+          )
+        ],
       ),
 
       body: widgets.length == 3

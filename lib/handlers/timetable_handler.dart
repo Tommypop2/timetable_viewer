@@ -30,7 +30,6 @@ class TimetableHandler {
       currentTimetable = null;
       return;
     }
-
     int startIndex = getIndexes("[", timetableString)[0];
     List<int> indexesOfClose = getIndexes("]", timetableString);
     int endIndex = indexesOfClose[indexesOfClose.length - 1];
@@ -56,7 +55,7 @@ class TimetableHandler {
   static Future<void> getTimetable() async {
     final prefs = await SharedPreferences.getInstance();
     String? timetableCache = prefs.getString("timetableCache");
-    if (timetableCache == null) {
+    if (timetableCache == null || timetableCache == "{}") {
       await getTimetableFromServer();
       await storeTimetable();
       return;
