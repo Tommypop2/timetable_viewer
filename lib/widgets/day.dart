@@ -53,12 +53,17 @@ class _DayDisplayState extends State<DayDisplay> {
                           top: 3,
                         )
                       : null,
-                  color: Color(
-                    int.parse(
-                      "${widget.timetable['${widget.weekNum}${days[widget.dayNum]}:$periodNum']['Colour']}"
-                          .replaceAll("#", "0xff"),
-                    ),
-                  ),
+                  color: widget.timetable[
+                                  '${widget.weekNum}${days[widget.dayNum]}:$periodNum']
+                              ['TeacherCode'] ==
+                          ""
+                      ? Colors.grey
+                      : Color(
+                          int.parse(
+                            "${widget.timetable['${widget.weekNum}${days[widget.dayNum]}:$periodNum']['Colour']}"
+                                .replaceAll("#", "0xff"),
+                          ),
+                        ),
                   width: (MediaQuery.of(context).size.width / 5) - 8,
                   height: (MediaQuery.of(context).size.height / 7) - 12,
                   child: Column(
