@@ -11,7 +11,7 @@ class CurrentWeekHandler {
     const String pattern = '<div class="content ';
     int index = res.body.lastIndexOf(pattern) + pattern.length;
     String weekString = res.body.substring(index, index + 5);
-    int weekNum = weekString == "week0" ? 0 : 1;
+    int weekNum = weekString == "week1" ? 0 : 1;
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setInt("weekOfYearCache", DateTime.now().weekOfYear);
     prefs.setInt("currentWeekCache", weekNum);
